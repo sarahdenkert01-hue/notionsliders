@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Notion Clock Greeting Widget</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 20px;
+      font-family: Arial, Helvetica, sans-serif;
+      text-align: center;
+      background: transparent; /* transparent background */
+      color: #000; /* black text */
+    }
+    .date {
+      font-size: 18px;
+      font-weight: bold;
+      text-transform: lowercase;
+      margin-bottom: 6px;
+    }
+    .time {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 6px;
+    }
+    .greeting {
+      font-size: 28px;
+      font-weight: bold;
+      text-transform: lowercase;
+    }
+  </style>
+</head>
+<body>
+  <div class="date" id="date"></div>
+  <div class="time" id="time"></div>
+  <div class="greeting" id="greeting"></div>
+
+  <script>
+    function updateWidget() {
+      const now = new Date();
+
+      // Format date (friday, october 3, 2025)
+      const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+      document.getElementById("date").textContent = now.toLocaleDateString("en-US", options).toLowerCase();
+
+      // Format time (hh:mm AM/PM)
+      let hours = now.getHours();
+      let minutes = now.getMinutes().toString().padStart(2, '0');
+      let ampm = hours >= 12 ? 'PM' : 'AM';
+      let displayHours = hours % 12 || 12;
+      document.getElementById("time").textContent = `${displayHours}:${minutes} ${ampm}`;
+
+      // Greeting
+      let greeting;
+      if (hours < 12) {
+        greeting = "good morning.";
+      } else if (hours < 18) {
+        greeting = "good afternoon.";
+      } else {
+        greeting = "good evening.";
+      }
+      document.getElementById("greeting").textContent = greeting;
+    }
+
+    updateWidget();
+    setInterval(updateWidget, 60000); // refresh every minute
+  </script>
+</body>
+</html>
